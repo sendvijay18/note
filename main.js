@@ -481,7 +481,7 @@ var EditNoteComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-container bg-light\">\n  <div class=\"login-box\">\n      <div style=\"padding:5px;\">\n          <h2 class=\"note-heading\"> Note Making</h2><br>\n          <note-overview></note-overview>\n          <button mat-mini-fab color=\"accent\" class=\"btn btn-danger\" (click)=\"addNote()\" style=\"margin:2px;\"><mat-icon>add</mat-icon></button> \n          <!-- <button class=\"btn btn-primary\" (click)=\"export()\" style=\"margin:2px;\"> download in CSV</button> -->\n          <input type=\"text\" [(ngModel)]=\"textFilter\" (keyup)=\"applyNGXFilter()\" placeholder=\"Type to filter by name\">\n          <table id=\"myTableElementId\" class=\"table table-striped\">\n            <thead>\n            <tr>\n              <th class=\"hidden\">Id</th>\n              <th>Title</th>\n              <th>Content</th>\n              <th>TimeStamp</th>\n              <th>Action</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr *ngFor=\"let note of noteList | filterBy: userFilter\">\n              <td class=\"hidden\">{{note.id}}</td>\n              <td>{{note.title}}</td>\n              <td>{{note.content}}</td>\n              <td>{{note.noteTimeStamp}}</td>\n              <td><button mat-mini-fab class=\"btn\" (click)=\"deleteNote(note)\"><mat-icon>delete</mat-icon></button>\n                <button mat-mini-fab color=\"primary\" class=\"btn btn-danger\" (click)=\"editNote(note)\" style=\"margin-left: 20px;\"><mat-icon>edit</mat-icon></button></td>\n            </tr>\n            </tbody>\n          </table>\n        </div>\n  </div>\n</div>"
+module.exports = "<div class=\"login-container bg-light\">\n  <div class=\"login-box\">\n      <div style=\"padding:5px;\">\n          <h2 class=\"note-heading\"> Note Making</h2><br>\n          <note-overview></note-overview>\n          <button mat-mini-fab matTooltip=\"Add Note\" color=\"accent\" class=\"btn btn-danger\" (click)=\"addNote()\" style=\"margin:2px;\"><mat-icon>add</mat-icon></button> \n          \n          <input type=\"text\" [(ngModel)]=\"textFilter\" (keyup)=\"applyNGXFilter()\" placeholder=\"Type to filter by name\">\n          <input class=\"float-right\" matTooltip=\"Download\" type=\"image\" src=\"assets/downloadImg.jpg\" alt=\"Submit\" width=\"30\" height=\"30\" style=\"margin-right: 55px;\" (click)=\"exporttoFile()\">\n          <table id=\"myTableElementId\" class=\"table table-striped\">\n            <thead>\n            <tr>\n              <th class=\"hidden\">Id</th>\n              <th>Title</th>\n              <th>Content</th>\n              <th>TimeStamp</th>\n              <th>Action</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr *ngFor=\"let note of noteList | filterBy: userFilter\">\n              <td class=\"hidden\">{{note.id}}</td>\n              <td>{{note.title}}</td>\n              <td>{{note.content}}</td>\n              <td>{{note.noteTimeStamp}}</td>\n              <td><button mat-mini-fab class=\"btn\" matTooltip=\"Delete\" (click)=\"deleteNote(note)\"><mat-icon>delete</mat-icon></button>\n                <button mat-mini-fab color=\"primary\" matTooltip=\"Modify\" class=\"btn btn-danger\" (click)=\"editNote(note)\" style=\"margin-left: 20px;\"><mat-icon>edit</mat-icon></button></td>\n            </tr>\n            </tbody>\n          </table>\n        </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -556,13 +556,13 @@ var NoteComponent = /** @class */ (function () {
         this.router.navigate(['add-note']);
     };
     ;
-    NoteComponent.prototype.export = function () {
+    NoteComponent.prototype.exporttoFile = function () {
         // download the file using old school javascript method
         this.exportAsService.save(this.exportAsConfig, 'My File Name');
         // get the data as base64 or json object for json type - this will be helpful in ionic or SSR
-        // this.exportAsService.get(this.config).subscribe(content => {
-        //   console.log(content);
-        // });
+        this.exportAsService.get(this.exportAsConfig).subscribe(function (content) {
+            console.log(content);
+        });
     };
     NoteComponent.prototype.applyNGXFilter = function () {
         // https://stackoverflow.com/questions/46289426/filtering-more-than-one-value-with-ngx-filter-pipe-angular
@@ -654,7 +654,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p class=\"note-heading\">\n  last Upate Date : {{ getDate }} (Updating with ADD_NOTE Reducer)\n</p>\n"
+module.exports = "<p class=\"note-heading\">\n  last Upate Date : {{ getDate }} (Update using ADD_NOTE Reducer from Store)\n</p>\n"
 
 /***/ }),
 
